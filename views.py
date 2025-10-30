@@ -10,6 +10,13 @@ class View:
             if c.get_email() == email and c.get_senha() == senha:
                 return{"id": c.get_id(), "nome": c.get_nome()}
         return None
+    
+    @staticmethod
+    def profissional_autenticar(email, senha):
+        for c in View.profissional_listar():
+            if c.get_email() == email and c.get_senha() == senha:
+                return{"id": c.get_id(), "nome": c.get_nome()}
+        return None
 
     @staticmethod
     def cliente_criar_admin():

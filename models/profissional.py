@@ -2,101 +2,99 @@ import json
 
 class Profissional:
     def __init__(self, id, nome, especialidade, conselho, email, senha):
-        self.set_id(id)
-        self.set_nome(nome)
-        self.set_email(especialidade)
-        self.set_fone(conselho)
-        self.set_fone(email)
-        self.set_senha(senha)
+        self.id = id
+        self.nome = nome
+        self.especialidade = especialidade
+        self.conselho = conselho
+        self.email = email
+        self.senha = senha
 
-    def get_id(self): return self.__id
-    def get_nome(self): return self.__nome
-    def get_especialidade(self): return self.__especialidade
-    def get_conselho(self): return self.__conselho
-    def get_email(self): return self.__email
-    def get_senha(self): return self.__senha
+    def get_id(self): return self.id
+    def get_nome(self): return self.nome
+    def get_especialidade(self): return self.especialidade
+    def get_email(self): return self.email
+    def get_senha(self): return self.senha
 
-    def set_id(self, id): self.__id = id
-    def set_nome(self, nome): self.__nome = nome
-    def set_especialidade(self, especialidade): self.__especialidade = especialidade
-    def set_conselho(self, conselho): self.__conselho = conselho
-    def set_email(self, email): self.__email = email
-    def set_senha(self, senha): self.__senha = senha
+    def set_id(self, id): self.id = id
+    def set_nome(self, nome): self.nome = nome
+    def set_especialidade(self, especialidade): self.especialidade = especialidade
+    def set_conselho(self, conselho): self.conselho = conselho
+    def set_email(self, email): self.email = email
+    def set_senha(self, senha): self.senha = senha
 
     def to_json(self):
-        dic = {"id":self.__id, "nome":self.__nome,
-        "especialidade":self.__especialidade, "conselho":self.__conselho, "email":self.__email, "senha":self.__senha}
+        dic = {
+            "id": self.id,
+            "nome": self.nome,
+            "especialidade": self.especialidade,
+            "conselho": self.conselho,
+            "email": self.email,
+            "senha": self.senha
+        }
         return dic
 
     @staticmethod
     def from_json(dic):
         return Profissional(dic["id"], dic["nome"], dic["especialidade"],
-        dic["conselho"], dic["email"], dic["senha"])
-    
+                           dic["conselho"], dic["email"], dic["senha"])
 
     def __str__(self):
-        return str(self.__nome)
-    
-class ProfissionalDAO():
-    __objetos = []
+        return f"{self.id} - {self.nome} - {self.especialidade} - {self.conselho} - {self.email} - {self.senha}"
+
+
+class ProfissionalDAO:
+    objetos = []
+
     @classmethod
     def inserir(cls, obj):
         cls.abrir()
         id = 0
-
-        for aux in cls.__objetos:
-            if aux.get_id() > id: id = aux.get_id() 
-            obj.set_id(id + 1)
-
-        cls.__objetos.append(obj)
+        for aux in cls.objetos:
+            if aux.get_id() > id: id = aux.get_id()
+        obj.set_id(id + 1)
+        cls.objetos.append(obj)
         cls.salvar()
-
 
     @classmethod
     def listar(cls):
         cls.abrir()
-        return cls.__objetos
+        return cls.objetos
 
     @classmethod
     def listar_id(cls, id):
         cls.abrir()
-        for obj in cls.__objetos:
-          if obj.get_id() == id: return obj
+        for obj in cls.objetos:
+            if obj.get_id() == id: return obj
         return None
-    
 
     @classmethod
     def atualizar(cls, obj):
         aux = cls.listar_id(obj.get_id())
-        if aux is not None:
-            cls.__objetos.remove(aux)
-            cls.__objetos.append(obj)
+        if aux != None:
+            cls.objetos.remove(aux)
+            cls.objetos.append(obj)
             cls.salvar()
-
 
     @classmethod
     def excluir(cls, obj):
         aux = cls.listar_id(obj.get_id())
-        if aux is not None:
-            cls.__objetos.remove(aux)
+        if aux != None:
+            cls.objetos.remove(aux)
             cls.salvar()
-
-
 
     @classmethod
     def abrir(cls):
-        cls.__objetos = []
+        cls.objetos = []
         try:
             with open("profissional.json", mode="r") as arquivo:
                 list_dic = json.load(arquivo)
                 for dic in list_dic:
                     obj = Profissional.from_json(dic)
-                    cls.__objetos.append(obj)
+                    cls.objetos.append(obj)
         except FileNotFoundError:
             pass
-
 
     @classmethod
     def salvar(cls):
         with open("profissional.json", mode="w") as arquivo:
-            json.dump(cls.__objetos, arquivo, default=Profissional.to_json)
+            json.dump([o.to_json() for o in cls.objetos], arquivo)
