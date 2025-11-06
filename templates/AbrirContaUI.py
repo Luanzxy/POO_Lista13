@@ -10,7 +10,10 @@ class AbrirContaUI:
         fone = st.text_input("Informe o fone")
         senha = st.text_input("Informe a senha", type="password")
         if st.button("Inserir"):
-            View.cliente_inserir(nome, email, fone, senha)
+            try:
+                
+
+            View.paciente_inserir(nome, email, fone, senha)
             st.success("Conta criada com sucesso")
             time.sleep(2)
             st.rerun()

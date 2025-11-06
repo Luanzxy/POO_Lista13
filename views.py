@@ -5,8 +5,8 @@ from models.medico import Medico, MedicoDAO
 from datetime import datetime, date
 
 class View:
-    def paciente_inserir(nome, email, fone, senha, data_nascimento=None):
-        paciente = Paciente(0, nome, email, fone, senha, data_nascimento)
+    def paciente_inserir(nome, email, fone, senha):
+        paciente = Paciente(0, nome, email, fone, senha)
         PacienteDAO.inserir(paciente)
 
     def paciente_listar():
@@ -15,8 +15,8 @@ class View:
     def paciente_listar_id(id):
         return PacienteDAO.listar_id(id)
 
-    def paciente_atualizar(id, nome, email, fone, senha, data_nascimento=None):
-        paciente = Paciente(id, nome, email, fone, senha, data_nascimento)
+    def paciente_atualizar(id, nome, email, fone, senha):
+        paciente = Paciente(id, nome, email, fone, senha)
         PacienteDAO.atualizar(paciente)
 
     def paciente_excluir(id):
@@ -35,8 +35,8 @@ class View:
                 return {"id": p.get_id(), "nome": p.get_nome()}
         return None
 
-    def medico_inserir(nome, especialidade, conselho, email, senha, data_nascimento=None):
-        medico = Medico(0, nome, especialidade, conselho, email, senha, data_nascimento)
+    def medico_inserir(nome, especialidade, conselho, email, senha):
+        medico = Medico(0, nome, especialidade, conselho, email, senha)
         MedicoDAO.inserir(medico)
 
     def medico_listar():
@@ -45,8 +45,8 @@ class View:
     def medico_listar_id(id):
         return MedicoDAO.listar_id(id)
 
-    def medico_atualizar(id, nome, especialidade, conselho, email, senha, data_nascimento=None):
-        medico = Medico(id, nome, especialidade, conselho, email, senha, data_nascimento)
+    def medico_atualizar(id, nome, especialidade, conselho, email, senha):
+        medico = Medico(id, nome, especialidade, conselho, email, senha)
         MedicoDAO.atualizar(medico)
 
     def medico_excluir(id):

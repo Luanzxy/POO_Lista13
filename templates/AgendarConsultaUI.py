@@ -16,7 +16,7 @@ class AgendarConsultaUI:
             else:
                 horario = st.selectbox("Informe o horário", horarios)
                 consultas = View.consulta_listar()
-                servico = st.selectbox("Informe a consulta", consultas)
+                consulta = st.selectbox("Informe a consulta", consultas)
 
                 if st.button("Agendar"):
                     View.horario_atualizar(

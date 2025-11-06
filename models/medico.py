@@ -1,23 +1,22 @@
 import json
 from models.dao import DAO
-from datetime import date
 
 class Medico:
-    def __init__(self, id, nome, especialidade, conselho, email, senha, data_nascimento=None):
+    def __init__(self, id, nome, especialidade, conselho, email, senha):
         self.id = id
         self.nome = nome
         self.especialidade = especialidade
         self.conselho = conselho
         self.email = email
         self.senha = senha
-        self.set_data_nascimento(data_nascimento)
+        
 
-    def get_id(self): return self.id
-    def get_nome(self): return self.nome
-    def get_especialidade(self): return self.especialidade
-    def get_email(self): return self.email
-    def get_senha(self): return self.senha
-    def get_data_nascimento(self): return self.data_nascimento
+    def get_id(self): return self.__id
+    def get_nome(self): return self.__nome
+    def get_especialidade(self): return self.__especialidade
+    def get_conselho(self): return self.__conselho
+    def get_email(self): return self.__email
+    def get_senha(self): return self.__senha
 
     def set_id(self, id): self.__id = id
     def set_nome(self, nome):
@@ -36,37 +35,24 @@ class Medico:
         if senha == "": raise ValueError("Senha inválida")
         self.__senha = senha
 
-    def set_data_nascimento(self, data_nascimento):
-        if data_nascimento == "" or data_nascimento is None:
-            self._data_nascimento = ""
-            return
-        try:
-            date.strptime(data_nascimento, "%d-%m-%Y")
-            self._data_nascimento = data_nascimento
-        except Exception:
-            raise ValueError("Data de nascimento inválida (use o formato DD-MM-AAAA)")
-
     def to_json(self):
         dic = {
-            "id": self.id,
-            "nome": self.nome,
-            "especialidade": self.especialidade,
-            "conselho": self.conselho,
-            "email": self.email,
-            "senha": self.senha,
-            "data_nascimento": self.data_nascimento
+            "id": self.__id,
+            "nome": self.__nome,
+            "especialidade": self.__especialidade,
+            "conselho": self.__conselho,
+            "email": self.__email,
+            "senha": self.__senha
         }
         return dic
 
     @staticmethod
     def from_json(dic):
         return Medico(dic["id"], dic["nome"], dic["especialidade"],
-                     dic["conselho"], dic["email"], dic["senha"],
-                     dic.get("data_nascimento", ""))
+                     dic["conselho"], dic["email"], dic["senha"])
 
     def __str__(self):
-        dn = self.data_nascimento if self.data_nascimento else "N/D"
-        return f"{self.id} - {self.nome} - {self.especialidade} - {self.conselho} - {self.email} - {dn}"
+        return f"{self.__id} - {self.__nome} - {self.__especialidade} - {self.__conselho} - {self.__email}"
 
 
 class MedicoDAO(DAO):
