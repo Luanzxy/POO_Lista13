@@ -6,7 +6,7 @@ class AlterarSenhaUI:
     def main():
         st.header("Alterar Senha (Admin)")
 
-        admin = View.cliente_listar_id(st.session_state["usuario_id"])
+        admin = View.paciente_listar_id(st.session_state["usuario_id"])
         if admin is None or admin.get_email() != "admin":
             st.warning("Apenas o administrador pode alterar a senha aqui.")
             return
@@ -19,7 +19,7 @@ class AlterarSenhaUI:
             if nova_senha.strip() == "":
                 st.error("Por favor, informe uma nova senha válida.")
             else:
-                View.cliente_atualizar(
+                View.paciente_atualizar(
                     admin.get_id(),
                     admin.get_nome(),
                     admin.get_email(),

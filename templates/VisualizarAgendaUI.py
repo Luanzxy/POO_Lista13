@@ -14,9 +14,9 @@ class VisualizarAgendaUI:
             VisualizarAgendaUI.inserir()
 
     def listar():
-        profissional = View.profissional_listar_id(st.session_state["usuario_id"])
-        if profissional is None:
-            st.warning("Nenhum profissional logado.")
+        medico = View.medico_listar_id(st.session_state["usuario_id"])
+        if medico is None:
+            st.warning("Nenhum médico logado.")
             return
 
         horarios = View.horario_listar()
@@ -24,30 +24,30 @@ class VisualizarAgendaUI:
             st.info("Nenhum horário cadastrado.")
             return
 
-        horarios_profissional = [h for h in horarios if h.get_id_profissional() == profissional.get_id()]
-        if len(horarios_profissional) == 0:
+        horarios_medico = [h for h in horarios if h.get_id_profissional() == medico.get_id()]
+        if len(horarios_medico) == 0:
             st.info("Você ainda não abriu horários na sua agenda.")
             return
 
         dic = []
-        for obj in horarios_profissional:
-            cliente = View.cliente_listar_id(obj.get_id_cliente())
-            servico = View.servico_listar_id(obj.get_id_servico())
+        for obj in horarios_medico:
+            paciente = View.paciente_listar_id(obj.get_id_paciente())
+            consulta = View.consulta_listar_id(obj.get_id_consulta())
             dic.append({
                 "id": obj.get_id(),
                 "data": obj.get_data(),
                 "confirmado": obj.get_confirmado(),
-                "cliente": cliente.get_nome() if cliente else None,
-                "serviço": servico.get_descricao() if servico else None
+                "paciente": paciente.get_nome() if paciente else None,
+                "consulta": consulta.get_descricao() if consulta else None
             })
 
         df = pd.DataFrame(dic)
         st.dataframe(df, hide_index=True)
 
     def inserir():
-        profissional = View.profissional_listar_id(st.session_state["usuario_id"])
-        if profissional is None:
-            st.warning("Nenhum profissional logado.")
+        medico = View.medico_listar_id(st.session_state["usuario_id"])
+        if medico is None:
+            st.warning("Nenhum médico logado.")
             return
 
         data = st.date_input("Informe o dia do atendimento", date.today())
@@ -62,7 +62,7 @@ class VisualizarAgendaUI:
             horarios_gerados = []
 
             while inicio < fim:
-                View.horario_inserir(inicio, False, None, None, profissional.get_id())
+                View.horario_inserir(inicio, False, None, None, medico.get_id())
                 horarios_gerados.append(inicio.strftime("%H:%M"))
                 inicio += timedelta(minutes=intervalo)
 

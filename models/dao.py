@@ -39,3 +39,13 @@ class DAO(ABC):
         if aux != None:
             cls._objetos.remove(aux)
             cls.salvar()
+
+    @classmethod
+    @abstractmethod
+    def abrir(cls):
+        pass
+
+    @classmethod
+    @abstractmethod
+    def salvar(cls):
+        pass

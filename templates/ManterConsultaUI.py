@@ -3,27 +3,27 @@ import pandas as pd
 import time
 from views import View
 
-class ManterServicoUI:
+class ManterConsultaUI:
 
     def main():
-        st.header("Cadastro de Serviços")
+        st.header("Cadastro de Consultas")
         tab1, tab2, tab3, tab4 = st.tabs(["Listar", "Inserir", "Atualizar", "Excluir"])
         with tab1:
-            ManterServicoUI.listar()
+            ManterConsultaUI.listar()
         with tab2:
-            ManterServicoUI.inserir()
+            ManterConsultaUI.inserir()
         with tab3:
-            ManterServicoUI.atualizar()
+            ManterConsultaUI.atualizar()
         with tab4:
-            ManterServicoUI.excluir()
+            ManterConsultaUI.excluir()
 
     def listar():
-        servicos = View.servico_listar()
-        if len(servicos) == 0:
-            st.write("Nenhum serviço cadastrado")
+        consultas = View.consulta_listar()
+        if len(consultas) == 0:
+            st.write("Nenhuma consulta cadastrada")
         else:
             dic = []
-            for obj in servicos:
+            for obj in consultas:
                 dic.append({
                     "id": obj.get_id(),
                     "descricao": obj.get_descricao(),
@@ -36,34 +36,34 @@ class ManterServicoUI:
         descricao = st.text_input("Descrição do serviço")
         valor = st.number_input("Valor do serviço", min_value=0.0, step=0.1)
         if st.button("Inserir"):
-            View.servico_inserir(descricao, valor)
-            st.success("Serviço inserido com sucesso")
+            View.consulta_inserir(descricao, valor)
+            st.success("Consulta inserida com sucesso")
             time.sleep(2)
             st.rerun()
 
     def atualizar():
-        servicos = View.servico_listar()
-        if len(servicos) == 0:
-            st.write("Nenhum serviço cadastrado")
+        consultas = View.consulta_listar()
+        if len(consultas) == 0:
+            st.write("Nenhuma consulta cadastrada")
         else:
-            op = st.selectbox("Atualização de Serviços", servicos)
+            op = st.selectbox("Atualização de Consultas", consultas)
             descricao = st.text_input("Nova descrição", op.get_descricao())
             valor = st.number_input("Novo valor", value=op.get_valor())
             if st.button("Atualizar"):
                 id = op.get_id()
-                View.servico_atualizar(id, descricao, valor)
-                st.success("Serviço atualizado com sucesso")
+                View.consulta_atualizar(id, descricao, valor)
+                st.success("Consulta atualizada com sucesso")
                 st.rerun()
 
     def excluir():
-        servicos = View.servico_listar()
-        if len(servicos) == 0:
-            st.write("Nenhum serviço cadastrado")
+        consultas = View.consulta_listar()
+        if len(consultas) == 0:
+            st.write("Nenhuma consulta cadastrada")
         else:
-            op = st.selectbox("Exclusão de Serviços", servicos)
+            op = st.selectbox("Exclusão de Consultas", consultas)
             if st.button("Excluir"):
                 id = op.get_id()
-                View.servico_excluir(id)
-                st.success("Serviço excluído com sucesso")
+                View.consulta_excluir(id)
+                st.success("Consulta excluída com sucesso")
                 time.sleep(2)
                 st.rerun()

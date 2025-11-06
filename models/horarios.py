@@ -1,16 +1,18 @@
+from datetime import datetime
 import json
 from models.dao import DAO
 
 class Horario:
-    def __init__(self, id, data, hora, id_cliente, id_servico):
+    def __init__(self, id, data, hora):
         self.set_id(id)
         self.set_data(data)
         self.set_hora(hora)
-        self.set_id_cliente(id_cliente)
-        self.set_id_servico(id_servico)
+        self.set_id_paciente(0)
+        self.set_id_consulta(0)
+        self.set_id_medico(0)
 
     def __str__(self):
-        return f"{self.id} - {self.data} {self.hora} - Cliente: {self.id_cliente} - Serviço: {self.id_servico}"
+        return f"{self.id} - {self.data} {self.hora} - Paciente: {self.id_paciente} - Consulta: {self.id_consulta} - Medico: {self.id_medico}"
 
     def get_id(self): 
        return self.id
@@ -18,38 +20,43 @@ class Horario:
         return self.data
     def get_hora(self): 
         return self.hora
-    def get_id_cliente(self): 
-        return self.id_cliente
-    def get_id_servico(self): 
-        return self.id_servico
+    def get_id_paciente(self): 
+        return self.id_paciente
+    def get_id_consulta(self): 
+        return self.id_consulta
+    def get_id_medico(self): 
+        return self.id_medico
 
-    def set_id(self, id): 
-        self.id = id
-    def set_data(self, data): 
-        self.data = data
-    def set_hora(self, hora): 
-        self.hora = hora
-    def set_id_cliente(self, id_cliente): 
-        self.id_cliente = id_cliente
-    def set_id_servico(self, id_servico): 
-        self.id_servico = id_servico
+    def set_id(self, id): self.__id = id
+    def set_data(self, data):
+        if not isinstance(data, datetime):
+            raise ValueError("Data inválida")
+        if data.year < 2025:
+            raise ValueError("Data anterior ao ano de 2025 não é permitida")
+        self.__data = data
+    def set_hora(self, hora): self.__hora = hora
+    def set_id_paciente(self, id_paciente): self.id_paciente = id_paciente
+    def set_id_consulta(self, id_consulta): self.id_consulta = id_consulta
+    def set_id_medico(self, id_medico): self.id_medico = id_medico
 
     def to_json(self):
         dic = {
             "id": self.id,
             "data": self.data,
             "hora": self.hora,
-            "id_cliente": self.id_cliente,
-            "id_servico": self.id_servico
+            "id_paciente": self.id_paciente,
+            "id_consulta": self.id_consulta,
+            "id_medico": self.id_medico
+
         }
         return dic
 
     @staticmethod
     def from_json(dic):
-        return Horario(dic["id"], dic["data"], dic["hora"], dic["id_cliente"], dic["id_servico"])
+        return Horario(dic["id"], dic["data"], dic["hora"], dic["id_paciente"], dic["id_consulta"], dic["id_medico"])
 
 
-class HorarioDAO:
+class HorarioDAO(DAO):
 
     @classmethod
     def abrir(cls):
