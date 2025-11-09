@@ -20,8 +20,7 @@ class View:
         PacienteDAO.atualizar(paciente)
 
     def paciente_excluir(id):
-        paciente = Paciente(id, "", "", "", "")
-        PacienteDAO.excluir(paciente)
+        PacienteDAO.excluir_por_id(id)
 
     def paciente_criar_admin():
         for p in View.paciente_listar():
@@ -50,8 +49,7 @@ class View:
         MedicoDAO.atualizar(medico)
 
     def medico_excluir(id):
-        medico = Medico(id, "", "", "", "", "")
-        MedicoDAO.excluir(medico)
+        MedicoDAO.excluir_por_id(id)
 
     def medico_autenticar(email, senha):
         for m in View.medico_listar():
@@ -74,8 +72,7 @@ class View:
         ConsultaDAO.atualizar(consulta)
 
     def consulta_excluir(id):
-        consulta = Consulta(id, "", 0.0)
-        ConsultaDAO.excluir(consulta)
+        ConsultaDAO.excluir_por_id(id)
 
     def horario_inserir(data, confirmado, id_paciente, id_consulta, id_medico):
         c = Horario(0, data)
@@ -97,8 +94,7 @@ class View:
         HorarioDAO.atualizar(c)
 
     def horario_excluir(id):
-        c = Horario(id, None)
-        HorarioDAO.excluir(c)
+        HorarioDAO.excluir_por_id(id)
 
     def horario_agendar_horario(id_medico):
         r = []

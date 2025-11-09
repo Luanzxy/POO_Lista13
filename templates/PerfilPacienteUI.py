@@ -10,10 +10,9 @@ class PerfilPacienteUI:
         email = st.text_input("Informe o novo e-mail", op.get_email())
         fone = st.text_input("Informe o novo fone", op.get_fone())
         senha = st.text_input("Informe a nova senha", op.get_senha(), type="password")
-        data_nascimento = st.text_input("Informe a nova data de nascimento (DD-MM-AAAA)", op.get_data_nascimento())
         if st.button("Atualizar"):
             id = op.get_id()
-            View.medico_atualizar(id, nome, email, fone, senha, data_nascimento)
+            View.paciente_atualizar(id, nome, email, fone, senha)
             st.success("Paciente atualizado com sucesso")
             time.sleep(2)
             st.rerun()

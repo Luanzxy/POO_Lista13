@@ -8,15 +8,12 @@ class Consulta:
         self.set_valor(valor)
 
     def __str__(self):
-        return f"{self.id} - {self.descricao} - R$ {self.valor:.2f}"
-    
-    def get_id(self): 
-        return self.id
-    def get_descricao(self): 
-        return self.descricao
-    def get_valor(self): 
-        return self.valor
-    
+        return f"{self.__id} - {self.__descricao} - R$ {self.__valor:.2f}"
+
+    def get_id(self): return self.__id
+    def get_descricao(self): return self.__descricao
+    def get_valor(self): return self.__valor
+
     def set_id(self, id): self.__id = id
     def set_descricao(self, descricao): 
         if descricao == "": raise ValueError("Descrição inválida")
@@ -26,11 +23,12 @@ class Consulta:
         if valor < 0: raise ValueError("Valor inválido")
         self.__valor = valor
 
+
     def to_json(self):
         dic = {
-            "id": self.id,
-            "descricao": self.descricao,
-            "valor": self.valor
+            "id": self.__id,
+            "descricao": self.__descricao,
+            "valor": self.__valor
         }
         return dic
 
@@ -39,21 +37,21 @@ class Consulta:
         return Consulta(dic["id"], dic["descricao"], dic["valor"])
 
 
-class ConsultaDAO(DAO):
 
+class ConsultaDAO(DAO):
     @classmethod
     def abrir(cls):
-        cls.objetos = []
+        cls._objetos = []
         try:
             with open("consultas.json", mode="r") as arquivo:
                 list_dic = json.load(arquivo)
                 for dic in list_dic:
                     obj = Consulta.from_json(dic)
-                    cls.objetos.append(obj)
+                    cls._objetos.append(obj)
         except FileNotFoundError:
             pass
 
     @classmethod
     def salvar(cls):
         with open("consultas.json", mode="w") as arquivo:
-            json.dump(cls.objetos, arquivo, default=Consulta.to_json)
+            json.dump(cls._objetos, arquivo, default=Consulta.to_json)

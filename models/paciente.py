@@ -27,7 +27,7 @@ class Paciente:
         self.__email = email
     def set_fone(self, fone):
         if fone == "": raise ValueError("Telefone inválido")
-        self._fone = fone
+        self.__fone = fone
 
     def to_json(self):
         dic = {
@@ -51,17 +51,17 @@ class PacienteDAO(DAO):
 
     @classmethod
     def abrir(cls):
-        cls.objetos = []
+        cls._objetos = []
         try:
             with open("pacientes.json", mode="r") as arquivo:
                 list_dic = json.load(arquivo)
                 for dic in list_dic:
                     obj = Paciente.from_json(dic)
-                    cls.objetos.append(obj)
+                    cls._objetos.append(obj)
         except FileNotFoundError:
             pass
 
     @classmethod
     def salvar(cls):
         with open("pacientes.json", mode="w") as arquivo:
-            json.dump(cls.objetos, arquivo, default=Paciente.to_json)
+            json.dump(cls._objetos, arquivo, default=Paciente.to_json)

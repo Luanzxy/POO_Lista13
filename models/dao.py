@@ -41,6 +41,15 @@ class DAO(ABC):
             cls.salvar()
 
     @classmethod
+    def excluir_por_id(cls, id):
+        cls.abrir()
+        for obj in cls._objetos:
+            if obj.get_id() == id:
+                cls._objetos.remove(obj)
+                cls.salvar()
+                return
+
+    @classmethod
     @abstractmethod
     def abrir(cls):
         pass

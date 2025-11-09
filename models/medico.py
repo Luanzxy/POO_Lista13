@@ -3,13 +3,12 @@ from models.dao import DAO
 
 class Medico:
     def __init__(self, id, nome, especialidade, conselho, email, senha):
-        self.id = id
-        self.nome = nome
-        self.especialidade = especialidade
-        self.conselho = conselho
-        self.email = email
-        self.senha = senha
-        
+        self.set_id(id)
+        self.set_nome(nome)
+        self.set_especialidade(especialidade)
+        self.set_conselho(conselho)
+        self.set_email(email)
+        self.set_senha(senha)
 
     def get_id(self): return self.__id
     def get_nome(self): return self.__nome
@@ -59,17 +58,17 @@ class MedicoDAO(DAO):
 
     @classmethod
     def abrir(cls):
-        cls.objetos = []
+        cls._objetos = []
         try:
             with open("medicos.json", mode="r") as arquivo:
                 list_dic = json.load(arquivo)
                 for dic in list_dic:
                     obj = Medico.from_json(dic)
-                    cls.objetos.append(obj)
+                    cls._objetos.append(obj)
         except FileNotFoundError:
             pass
 
     @classmethod
     def salvar(cls):
         with open("medicos.json", mode="w") as arquivo:
-            json.dump([o.to_json() for o in cls.objetos], arquivo)
+            json.dump(cls._objetos, arquivo, default = Medico.to_json)
