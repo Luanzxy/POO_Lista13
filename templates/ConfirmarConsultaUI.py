@@ -4,7 +4,7 @@ from views import View
 
 class ConfirmarConsultaUI:
     def main():
-        st.header("Confirmar Serviço")
+        st.header("Confirmar Consulta")
 
         medico = View.medico_listar_id(st.session_state["usuario_id"])
         if medico is None:
