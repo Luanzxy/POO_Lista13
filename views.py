@@ -2,6 +2,7 @@ from models.consulta import Consulta, ConsultaDAO
 from models.paciente import Paciente, PacienteDAO
 from models.horarios import Horario, HorarioDAO
 from models.medico import Medico, MedicoDAO
+from models.prescricao import Prescricao, PrescricaoDAO
 from datetime import datetime, date
 
 class View:
@@ -56,6 +57,21 @@ class View:
             if m.get_email() == email and m.get_senha() == senha:
                 return {"id": m.get_id(), "nome": m.get_nome()}
         return None
+    
+    def prescricao_inserir(id_medico, id_paciente, id_consulta, medicamento, dosagem, instrucoes, data=None):
+        if data is None:
+            data = datetime.now()
+        p = Prescricao(0, id_medico, id_paciente, id_consulta, medicamento, dosagem, instrucoes, data)
+        PrescricaoDAO.inserir(p)
+
+    def prescricao_listar():
+        return PrescricaoDAO.listar()
+
+    def prescricao_listar_medico(id_medico):
+        return PrescricaoDAO.listar_med_presc(id_medico)
+
+    def prescricao_listar_paciente(id_paciente):
+        return PrescricaoDAO.listar_pac_presc(id_paciente)
 
     def consulta_listar():
         return ConsultaDAO.listar()

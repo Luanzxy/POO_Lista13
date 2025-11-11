@@ -48,6 +48,16 @@ class DAO(ABC):
                 cls._objetos.remove(obj)
                 cls.salvar()
                 return
+            
+    @classmethod
+    def listar_med_presc(cls, id_medico):
+        cls.abrir()
+        return [p for p in cls._objetos if p.get_id_medico() == id_medico]
+
+    @classmethod
+    def listar_pac_presc(cls, id_paciente):
+        cls.abrir()
+        return [p for p in cls._objetos if p.get_id_paciente() == id_paciente]
 
     @classmethod
     @abstractmethod

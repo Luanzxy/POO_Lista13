@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "id_medico": 1,
+        "id_paciente": 5,
+        "id_consulta": 93,
+        "medicamento": "Dipirona",
+        "dosagem": "1 comprimido",
+        "instrucoes": "por 4 dias.",
+        "data": "2025-11-11T01:49:39.830895"
+    }
+]

@@ -8,7 +8,7 @@ class LoginUI:
         senha = st.text_input("Informe a senha", type="password")
         if st.button("Entrar"):
             c = View.paciente_autenticar(email, senha)
-            if c == None: st.write("E-mail ou senha inválidos")
+            if c == None: st.error("E-mail ou senha inválidos")
             else:
                 st.session_state["usuario_id"] = c["id"]
                 st.session_state["usuario_nome"] = c["nome"]

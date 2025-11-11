@@ -108,7 +108,7 @@ class VisualizarAgendaUI:
             if len(horarios_gerados) > 0:
                 st.success(f"Foram inseridos {len(horarios_gerados)} horários: {', '.join(horarios_gerados)}")
             if len(horarios_falhos) > 0:
-                st.warning(f"Falha ao inserir {len(horarios_falhos)} horários: {', '.join(horarios_falhos)}")
+                st.sucess(f"Foram inseridos {len(horarios_falhos)} horários: {', '.join(horarios_falhos)}")
 
             time.sleep(1)
             st.rerun()

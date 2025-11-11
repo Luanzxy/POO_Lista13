@@ -12,6 +12,7 @@ from templates.AgendarConsultaUI import AgendarConsultaUI
 from templates.VisualizarAgendaUI import VisualizarAgendaUI
 from templates.VisualizarConsultaUI import VisualizarConsultaUI
 from templates.ConfirmarConsultaUI import ConfirmarConsultaUI
+from templates.PrescreverMedicamentoUI import PrescreverMedicamentoUI
 from views import View
 import streamlit as st
 
@@ -39,13 +40,15 @@ class IndexUI:
             VisualizarAgendaUI.main()
 
     def menu_medico():
-        op = st.sidebar.selectbox("Menu", ["Meus Dados", "gerenciar agenda", "confirmar consulta"])
+        op = st.sidebar.selectbox("Menu", ["Meus Dados", "visualizar agenda", "confirmar consulta", "Prescrever Medicamento"])
         if op == "Meus Dados":
             PerfilMedicoUI.main()
-        if op == "gerenciar agenda":
+        if op == "visualizar agenda":
             VisualizarAgendaUI.main()
         if op == "confirmar consulta":
             ConfirmarConsultaUI.main()
+        if op == "Prescrever Medicamento":
+            PrescreverMedicamentoUI.main()
 
     def menu_admin():
         op = st.sidebar.selectbox("Menu", ["Cadastro de Pacientes", "Cadastro de Consultas", "Cadastro de Horários", "Cadastro de Médicos", "Alterar Senha"])
